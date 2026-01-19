@@ -1,0 +1,252 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const achievements = [
+  'Raycast創業者 Thomas Paul Mann 来日実現',
+  'コアメンバー 3名 → 7名 へ拡大',
+  'SNSフォロワー 500人達成',
+  'Raycast本 執筆中（Raycast社公式コメント掲載予定）',
+];
+
+const keyEvents = [
+  { date: '2025/02/21', name: 'Raycast Meetup Japan #1 with Thomas Paul Mann' },
+  { date: '2025/03/22', name: 'GraphAI Contribution Fes 2025' },
+  { date: '2025/05/14', name: 'DevRel Guild 登壇' },
+  { date: '2025/05/22', name: '伝道師たち ~ Raycast Evangelists ~' },
+  { date: '2025/06/01', name: 'Fullstack AI Dev Day' },
+  { date: '2025/10/03', name: 'ユーザーコミュニティを巡る開拓者たち with KT' },
+  { date: '2025/10/30', name: 'Tokyo AI Hackathon' },
+  { date: '2025/10/31', name: 'Raycast Meetup Japan #2 with Raycast' },
+];
+
+---
+
+<MainLayout
+  title="About"
+  description="Raycast Community Japanについて - Mission, Vision, Valueと私たちの実績をご紹介します"
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">About Us</h1>
+      <p class="hero-description">Raycast Community Japanについて</p>
+      <p class="about-intro">
+        Raycast Community Japanとは、Raycastを日本で普及させ日本の生産性向上を目指すユーザーコミュニティである。<br />
+        同時に感度の高い人々のネットワークを形成しそこに様々なチャンスや価値を生む体験を生み出していきたいと考えている。
+      </p>
+    </div>
+  </section>
+
+  <!-- Mission / Vision / Value -->
+  <section class="section mvv-section">
+    <div class="container">
+      <div class="mvv-grid">
+        <div class="mvv-card">
+          <span class="mvv-label">Mission</span>
+          <p class="mvv-text">Raycast社を先行し、世界でローカルコミュニティを牽引する存在になる</p>
+        </div>
+        <div class="mvv-card">
+          <span class="mvv-label">Vision</span>
+          <p class="mvv-text">Raycastを日本に普及しコンピュータと人のあり方を変革する</p>
+        </div>
+        <div class="mvv-card">
+          <span class="mvv-label">Value</span>
+          <p class="mvv-text">your shortcut to everythingを体現する</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Achievements -->
+  <section class="section achievements-section">
+    <div class="container">
+      <h2 class="section-title">Achievements (2024-2025)</h2>
+
+      <div class="achievements-grid">
+        <div class="achievements-highlights">
+          <h3>Highlights</h3>
+          <ul>
+            {achievements.map(achievement => (
+              <li>{achievement}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="achievements-events">
+          <h3>Key Events</h3>
+          <div class="events-timeline">
+            {keyEvents.map(event => (
+              <div class="timeline-item">
+                <time class="timeline-date">{event.date}</time>
+                <span class="timeline-name">{event.name}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-section">
+    <div class="container">
+      <h2 class="cta-title">一緒に活動しませんか？</h2>
+      <p class="cta-description">
+        Raycast Community Japanでは、イベントの企画・運営やコンテンツ制作を行う仲間を募集しています。
+      </p>
+      <div class="cta-buttons">
+        <a href="#" class="btn btn-primary">Slackに参加する</a>
+        <a href="/team" class="btn btn-secondary">チームを見る</a>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    padding: var(--spacing-4xl) 0 var(--spacing-2xl);
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-description {
+    font-size: 1.25rem;
+    color: var(--color-gray-600);
+    margin: 0;
+  }
+
+  /* Intro */
+  .about-intro {
+    max-width: 700px;
+    margin-top: var(--spacing-xl);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-gray-600);
+  }
+
+  /* MVV Section */
+  .mvv-section {
+  }
+
+  .mvv-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    max-width: 700px;
+  }
+
+  .mvv-card {
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .mvv-card:last-child {
+    border-bottom: none;
+  }
+
+  .mvv-label {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .mvv-text {
+    font-size: 1.25rem;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Achievements */
+  .achievements-section {
+  }
+
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+  }
+
+  .achievements-highlights h3,
+  .achievements-events h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .achievements-highlights ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .achievements-highlights li {
+    padding: var(--spacing-sm) 0;
+    padding-left: var(--spacing-lg);
+    position: relative;
+  }
+
+  .achievements-highlights li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-black);
+  }
+
+  .events-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: var(--spacing-md);
+    padding: var(--spacing-sm) 0;
+    font-size: 0.9375rem;
+  }
+
+  .timeline-date {
+    flex-shrink: 0;
+    width: 100px;
+    color: var(--color-gray-500);
+  }
+
+  .timeline-name {
+    color: var(--color-gray-700);
+  }
+
+  /* CTA */
+  .cta-section {
+  }
+
+  .cta-title {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .cta-description {
+    color: var(--color-gray-600);
+    max-width: 500px;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .achievements-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

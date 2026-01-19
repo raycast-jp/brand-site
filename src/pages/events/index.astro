@@ -1,0 +1,196 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+
+const events = await getCollection('events');
+const sortedEvents = events.sort((a, b) =>
+  new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+const now = new Date();
+const upcomingEvents = sortedEvents.filter(event => new Date(event.data.date) >= now);
+const pastEvents = sortedEvents.filter(event => new Date(event.data.date) < now);
+---
+
+<MainLayout
+  title="Events"
+  description="Raycast Community Japanが開催するイベント一覧"
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">Events</h1>
+      <p class="hero-description">Raycast Community Japanのイベント</p>
+    </div>
+  </section>
+
+  <!-- Upcoming Events -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">開催予定のイベント</h2>
+      {upcomingEvents.length > 0 ? (
+        <div class="events-grid">
+          {upcomingEvents.map(event => (
+            <a href={`/events/${event.id}`} class="event-card">
+              <div class="event-status upcoming">開催予定</div>
+              <time class="event-date">
+                {new Date(event.data.date).toLocaleDateString('ja-JP', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+              <h3 class="event-title">{event.data.title}</h3>
+              <p class="event-location">{event.data.location}</p>
+              <p class="event-description">{event.data.description}</p>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="no-events">現在予定されているイベントはありません</p>
+      )}
+
+      <div class="connpass-cta">
+        <a href="https://raycast-jp.connpass.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          connpassでイベントを確認
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Past Events -->
+  {pastEvents.length > 0 && (
+    <section class="section past-events-section">
+      <div class="container">
+        <h2 class="section-title">過去のイベント</h2>
+        <div class="events-grid">
+          {pastEvents.map(event => (
+            <a href={`/events/${event.id}`} class="event-card past">
+              <div class="event-status past">終了</div>
+              <time class="event-date">
+                {new Date(event.data.date).toLocaleDateString('ja-JP', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </time>
+              <h3 class="event-title">{event.data.title}</h3>
+              <p class="event-location">{event.data.location}</p>
+              <p class="event-description">{event.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+</MainLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    padding: var(--spacing-4xl) 0 var(--spacing-2xl);
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .hero-description {
+    font-size: 1.25rem;
+    color: var(--color-gray-600);
+    margin: 0;
+  }
+
+  /* Events Grid */
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .event-card {
+    display: block;
+    padding: var(--spacing-xl);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .event-card:hover {
+    opacity: 1;
+    border-color: var(--color-black);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .event-card.past {
+  }
+
+  .event-status {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .event-status.upcoming {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .event-status.past {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-600);
+  }
+
+  .event-date {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .event-title {
+    font-size: 1.25rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .event-location {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .event-description {
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .no-events {
+    color: var(--color-gray-500);
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .connpass-cta {
+  }
+
+  /* Past Events Section */
+  .past-events-section {
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .events-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

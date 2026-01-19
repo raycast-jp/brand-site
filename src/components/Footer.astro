@@ -1,0 +1,142 @@
+---
+const navLinks = [
+  { href: '/about', label: 'About' },
+  { href: '/events', label: 'Events' },
+  { href: '/team', label: 'Team' },
+];
+
+const socialLinks = [
+  { href: 'https://x.com/raycast_jp', label: 'X (Twitter)', icon: 'x' },
+  { href: 'https://raycast-jp.connpass.com/', label: 'connpass', icon: 'connpass' },
+  { href: '#', label: 'Slack', icon: 'slack' },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <span class="footer-logo">Raycast Community Japan</span>
+        <p class="footer-tagline">your shortcut to everything</p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Footer navigation">
+        <ul class="footer-nav-list">
+          {navLinks.map(link => (
+            <li><a href={link.href}>{link.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+
+      <div class="footer-social">
+        {socialLinks.map(link => (
+          <a href={link.href} target="_blank" rel="noopener noreferrer" aria-label={link.label} class="social-link">
+            {link.label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="copyright">&copy; {currentYear} Raycast Community Japan</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background-color: var(--color-gray-50);
+    border-top: 1px solid var(--color-gray-200);
+    padding: var(--spacing-3xl) 0 var(--spacing-xl);
+  }
+
+  .footer-container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  .footer-main {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--spacing-3xl);
+    padding-bottom: var(--spacing-2xl);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .footer-brand {
+    max-width: 300px;
+  }
+
+  .footer-logo {
+    font-weight: 700;
+    font-size: 1.125rem;
+    letter-spacing: -0.02em;
+  }
+
+  .footer-tagline {
+    margin-top: var(--spacing-sm);
+    color: var(--color-gray-500);
+    font-size: 0.875rem;
+    margin-bottom: 0;
+  }
+
+  .footer-nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    list-style: none;
+  }
+
+  .footer-nav-list a {
+    color: var(--color-gray-600);
+    font-size: 0.9375rem;
+  }
+
+  .footer-nav-list a:hover {
+    color: var(--color-black);
+    opacity: 1;
+  }
+
+  .footer-social {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .social-link {
+    color: var(--color-gray-600);
+    font-size: 0.9375rem;
+  }
+
+  .social-link:hover {
+    color: var(--color-black);
+    opacity: 1;
+  }
+
+  .footer-bottom {
+    padding-top: var(--spacing-xl);
+  }
+
+  .copyright {
+    color: var(--color-gray-500);
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .footer-main {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-2xl);
+    }
+
+    .footer-nav-list,
+    .footer-social {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--spacing-md);
+    }
+  }
+</style>

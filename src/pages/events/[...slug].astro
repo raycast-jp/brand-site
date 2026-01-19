@@ -1,0 +1,302 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map(event => ({
+    params: { slug: event.id },
+    props: { event },
+  }));
+}
+
+const { event } = Astro.props;
+const { Content } = await render(event);
+
+const eventDate = new Date(event.data.date);
+const isPast = eventDate < new Date();
+---
+
+<MainLayout
+  title={event.data.title}
+  description={event.data.description}
+>
+  <article class="event-detail">
+    <!-- Header -->
+    <header class="event-header">
+      <div class="container">
+        <a href="/events" class="back-link">&larr; イベント一覧へ戻る</a>
+        <div class="event-meta">
+          <span class:list={['event-status', { past: isPast }]}>
+            {isPast ? '終了' : '開催予定'}
+          </span>
+          <time class="event-date">
+            {eventDate.toLocaleDateString('ja-JP', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </time>
+        </div>
+        <h1 class="event-title">{event.data.title}</h1>
+        <p class="event-location">{event.data.location}</p>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <section class="event-content">
+      <div class="container">
+        <div class="content-body">
+          <Content />
+        </div>
+
+        {event.data.connpassUrl && !isPast && (
+          <div class="event-cta">
+            <a href={event.data.connpassUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              connpassで申し込む
+            </a>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Photos -->
+    {event.data.photos && event.data.photos.length > 0 && (
+      <section class="event-photos">
+        <div class="container">
+          <h2>イベント写真</h2>
+          <div class="photos-grid">
+            {event.data.photos.map(photo => (
+              <img src={photo} alt="イベント写真" loading="lazy" />
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Tweets -->
+    {event.data.tweets && event.data.tweets.length > 0 && (
+      <section class="event-tweets">
+        <div class="container">
+          <h2>参加者のポスト</h2>
+          <div class="tweets-list">
+            {event.data.tweets.map(tweet => (
+              <a href={tweet} target="_blank" rel="noopener noreferrer" class="tweet-link">
+                ポストを見る &rarr;
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Blog Posts -->
+    {event.data.blogPosts && event.data.blogPosts.length > 0 && (
+      <section class="event-blogs">
+        <div class="container">
+          <h2>参加者のブログ記事</h2>
+          <div class="blogs-list">
+            {event.data.blogPosts.map(post => (
+              <a href={post.url} target="_blank" rel="noopener noreferrer" class="blog-card">
+                <span class="blog-title">{post.title}</span>
+                <span class="blog-author">by {post.author}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </article>
+</MainLayout>
+
+<style>
+  .event-detail {
+    padding-bottom: var(--spacing-4xl);
+  }
+
+  /* Header */
+  .event-header {
+    padding: var(--spacing-2xl) 0 var(--spacing-3xl);
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .back-link:hover {
+    color: var(--color-black);
+    opacity: 1;
+  }
+
+  .event-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .event-status {
+    display: inline-block;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 4px;
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .event-status.past {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-600);
+  }
+
+  .event-date {
+    font-size: 0.9375rem;
+    color: var(--color-gray-500);
+  }
+
+  .event-title {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .event-location {
+    font-size: 1.125rem;
+    color: var(--color-gray-600);
+    margin: 0;
+  }
+
+  /* Content */
+  .event-content {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .content-body {
+    max-width: 700px;
+  }
+
+  .content-body :global(h2) {
+    font-size: 1.5rem;
+    margin-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .content-body :global(h3) {
+    font-size: 1.25rem;
+    margin-top: var(--spacing-xl);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .content-body :global(p) {
+    line-height: 1.8;
+    color: var(--color-gray-700);
+  }
+
+  .content-body :global(ul),
+  .content-body :global(ol) {
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .content-body :global(li) {
+    line-height: 1.8;
+    color: var(--color-gray-700);
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .event-cta {
+    margin-top: var(--spacing-2xl);
+  }
+
+  /* Photos */
+  .event-photos,
+  .event-tweets,
+  .event-blogs {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .event-photos h2,
+  .event-tweets h2,
+  .event-blogs h2 {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .photos-grid img {
+    width: 100%;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  /* Tweets */
+  .tweets-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .tweet-link {
+    display: inline-block;
+    padding: var(--spacing-sm) 0;
+    color: var(--color-gray-600);
+  }
+
+  .tweet-link:hover {
+    color: var(--color-black);
+    opacity: 1;
+  }
+
+  /* Blogs */
+  .blogs-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .blog-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-lg);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 8px;
+  }
+
+  .blog-card:hover {
+    opacity: 1;
+    border-color: var(--color-black);
+  }
+
+  .blog-title {
+    font-weight: 600;
+  }
+
+  .blog-author {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  @media (max-width: 768px) {
+    .event-title {
+      font-size: 1.75rem;
+    }
+
+    .photos-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .blogs-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

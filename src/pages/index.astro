@@ -1,0 +1,262 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import { getCollection } from 'astro:content';
+
+const events = await getCollection('events');
+const upcomingEvents = events
+  .filter(event => new Date(event.data.date) >= new Date())
+  .sort((a, b) => new Date(a.data.date).getTime() - new Date(b.data.date).getTime())
+  .slice(0, 3);
+---
+
+<MainLayout title="Raycast Community Japan">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">Raycast Community Japan</h1>
+      <p class="hero-vision">
+        Raycastを日本に普及し<br />
+        コンピュータと人のあり方を変革する
+      </p>
+      <p class="hero-tagline">your shortcut to everything</p>
+      <div class="hero-cta">
+        <a href="https://www.raycast.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+          Raycastを始める
+        </a>
+        <a href="/events" class="btn btn-secondary">
+          イベントを見る
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="section about-section">
+    <div class="container">
+      <h2 class="section-title">コミュニティについて</h2>
+      <p class="about-intro">
+        Raycast Community Japanとは、Raycastを日本で普及させ日本の生産性向上を目指すユーザーコミュニティである。<br />
+        同時に感度の高い人々のネットワークを形成しそこに様々なチャンスや価値を生む体験を生み出していきたいと考えている。
+      </p>
+      <div class="about-content">
+        <div class="about-card">
+          <h3>Mission</h3>
+          <p>Raycast社を先行し、世界でローカルコミュニティを牽引する存在になる</p>
+        </div>
+        <div class="about-card">
+          <h3>Vision</h3>
+          <p>Raycastを日本に普及しコンピュータと人のあり方を変革する</p>
+        </div>
+        <div class="about-card">
+          <h3>Value</h3>
+          <p>your shortcut to everythingを体現する</p>
+        </div>
+      </div>
+      <div class="about-cta">
+        <a href="/about" class="btn btn-secondary">もっと詳しく</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Events Section -->
+  <section class="section events-section">
+    <div class="container">
+      <h2 class="section-title">イベント</h2>
+      {upcomingEvents.length > 0 ? (
+        <div class="events-grid">
+          {upcomingEvents.map(event => (
+            <a href={`/events/${event.slug}`} class="event-card">
+              <time class="event-date">{new Date(event.data.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+              <h3 class="event-title">{event.data.title}</h3>
+              <p class="event-location">{event.data.location}</p>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="no-events">現在予定されているイベントはありません</p>
+      )}
+      <div class="events-cta">
+        <a href="/events" class="btn btn-secondary">すべてのイベント</a>
+        <a href="https://raycast-jp.connpass.com/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          connpassで申し込む
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section cta-section">
+    <div class="container">
+      <h2 class="cta-title">コミュニティに参加しよう</h2>
+      <p class="cta-description">
+        Raycast Community Japanでは、イベントの開催やSlackでの情報交換を行っています。
+      </p>
+      <div class="cta-buttons">
+        <a href="#" class="btn btn-primary">Slackに参加する</a>
+        <a href="https://x.com/raycast_jp" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+          Xをフォローする
+        </a>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    padding: var(--spacing-4xl) 0;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .hero-vision {
+    font-size: 1.5rem;
+    color: var(--color-gray-700);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.6;
+  }
+
+  .hero-tagline {
+    font-size: 1.125rem;
+    color: var(--color-gray-500);
+    font-style: italic;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  /* About Section */
+  .about-intro {
+    max-width: 700px;
+    margin-bottom: var(--spacing-2xl);
+    font-size: 1.125rem;
+    line-height: 1.8;
+    color: var(--color-gray-600);
+  }
+
+  .about-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .about-card {
+    padding: var(--spacing-xl);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 12px;
+  }
+
+  .about-card h3 {
+    font-size: 1rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .about-card p {
+    font-size: 1.125rem;
+    margin: 0;
+  }
+
+  .about-cta {
+  }
+
+  /* Events Section */
+  .events-section {
+  }
+
+  .events-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .event-card {
+    display: block;
+    padding: var(--spacing-xl);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .event-card:hover {
+    opacity: 1;
+    border-color: var(--color-black);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .event-date {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .event-title {
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .event-location {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin: 0;
+  }
+
+  .no-events {
+    color: var(--color-gray-500);
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .events-cta {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  /* CTA Section */
+  .cta-section {
+  }
+
+  .cta-title {
+    margin-bottom: var(--spacing-md);
+  }
+
+  .cta-description {
+    color: var(--color-gray-600);
+    max-width: 500px;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2rem;
+    }
+
+    .hero-vision {
+      font-size: 1.25rem;
+    }
+
+    .about-content,
+    .events-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

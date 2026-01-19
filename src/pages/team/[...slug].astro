@@ -1,0 +1,269 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const team = await getCollection('team');
+  return team.map(member => ({
+    params: { slug: member.id },
+    props: { member },
+  }));
+}
+
+const { member } = Astro.props;
+const { Content } = await render(member);
+---
+
+<MainLayout
+  title={member.data.name}
+  description={`${member.data.name} - ${member.data.role} | Raycast Community Japan`}
+>
+  <article class="member-detail">
+    <!-- Header -->
+    <header class="member-header">
+      <div class="container">
+        <a href="/team" class="back-link">&larr; チーム一覧へ戻る</a>
+
+        <div class="member-info">
+          <div class="member-avatar">
+            {member.data.avatar ? (
+              <img src={member.data.avatar} alt={member.data.name} />
+            ) : (
+              <div class="avatar-placeholder">
+                {member.data.name.charAt(0)}
+              </div>
+            )}
+          </div>
+
+          <div class="member-details">
+            <h1 class="member-name">{member.data.name}</h1>
+            <p class="member-role">{member.data.role}</p>
+            <p class="member-bio">{member.data.bio}</p>
+
+            {member.data.social && (
+              <div class="member-social">
+                {member.data.social.x && (
+                  <a href={member.data.social.x} target="_blank" rel="noopener noreferrer" class="social-link">
+                    X (Twitter)
+                  </a>
+                )}
+                {member.data.social.github && (
+                  <a href={member.data.social.github} target="_blank" rel="noopener noreferrer" class="social-link">
+                    GitHub
+                  </a>
+                )}
+                {member.data.social.website && (
+                  <a href={member.data.social.website} target="_blank" rel="noopener noreferrer" class="social-link">
+                    Website
+                  </a>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <section class="member-content">
+      <div class="container">
+        <div class="content-body">
+          <Content />
+        </div>
+      </div>
+    </section>
+
+    <!-- Contributions -->
+    {member.data.contributions && member.data.contributions.length > 0 && (
+      <section class="member-contributions">
+        <div class="container">
+          <h2>貢献履歴</h2>
+          <div class="contributions-timeline">
+            {member.data.contributions.map(contribution => (
+              <div class="contribution-item">
+                <time class="contribution-date">{contribution.date}</time>
+                <span class="contribution-description">{contribution.description}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+  </article>
+</MainLayout>
+
+<style>
+  .member-detail {
+    padding-bottom: var(--spacing-4xl);
+  }
+
+  /* Header */
+  .member-header {
+    padding: var(--spacing-2xl) 0 var(--spacing-3xl);
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .back-link:hover {
+    color: var(--color-black);
+    opacity: 1;
+  }
+
+  .member-info {
+    display: flex;
+    gap: var(--spacing-2xl);
+    align-items: flex-start;
+  }
+
+  .member-avatar {
+    flex-shrink: 0;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .member-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-600);
+    font-size: 4rem;
+    font-weight: 700;
+  }
+
+  .member-details {
+    flex: 1;
+  }
+
+  .member-name {
+    font-size: 2.5rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .member-role {
+    font-size: 1.125rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .member-bio {
+    font-size: 1rem;
+    color: var(--color-gray-600);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .member-social {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .social-link {
+    font-size: 0.9375rem;
+    color: var(--color-gray-600);
+    padding: var(--spacing-xs) 0;
+  }
+
+  .social-link:hover {
+    color: var(--color-black);
+    opacity: 1;
+  }
+
+  /* Content */
+  .member-content {
+    padding: var(--spacing-3xl) 0;
+  }
+
+  .content-body {
+    max-width: 700px;
+  }
+
+  .content-body :global(h2) {
+    font-size: 1.5rem;
+    margin-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .content-body :global(p) {
+    line-height: 1.8;
+    color: var(--color-gray-700);
+  }
+
+  /* Contributions */
+  .member-contributions {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .member-contributions h2 {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .contributions-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-width: 700px;
+  }
+
+  .contribution-item {
+    display: flex;
+    gap: var(--spacing-lg);
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .contribution-item:last-child {
+    border-bottom: none;
+  }
+
+  .contribution-date {
+    flex-shrink: 0;
+    width: 80px;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .contribution-description {
+    color: var(--color-gray-700);
+  }
+
+  @media (max-width: 768px) {
+    .member-info {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .member-avatar {
+      width: 120px;
+      height: 120px;
+    }
+
+    .avatar-placeholder {
+      font-size: 3rem;
+    }
+
+    .member-name {
+      font-size: 1.75rem;
+    }
+
+    .member-social {
+      justify-content: center;
+    }
+  }
+</style>

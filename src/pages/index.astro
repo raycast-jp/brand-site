@@ -84,6 +84,19 @@ const upcomingEvents = events
     </div>
   </section>
 
+  <!-- Partners Section -->
+  <section class="section partners-section">
+    <div class="container">
+      <h2 class="section-title">パートナー</h2>
+      <div class="partners-grid">
+        <a href="https://and-and.co.jp/service/singularity-society/" target="_blank" rel="noopener noreferrer" class="partner-card">
+          <span class="partner-name">Singularity Society</span>
+          <p class="partner-description">テクノロジーで社会を変革するコミュニティ</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
   <!-- CTA Section -->
   <section class="section cta-section">
     <div class="container">
@@ -223,6 +236,41 @@ const upcomingEvents = events
     display: flex;
     gap: var(--spacing-md);
     flex-wrap: wrap;
+  }
+
+  /* Partners Section */
+  .partners-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+  }
+
+  .partner-card {
+    display: block;
+    padding: var(--spacing-xl);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 12px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .partner-card:hover {
+    opacity: 1;
+    border-color: var(--color-black);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .partner-name {
+    display: block;
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .partner-description {
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+    margin: 0;
   }
 
   /* CTA Section */

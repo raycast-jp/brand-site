@@ -2,7 +2,7 @@
 title: 'Raycast Meetup Japan #1 with Thomas Paul Mann'
 date: '2025-02-21'
 location: '東京都内'
-connpassUrl: 'https://raycast-jp.connpass.com/'
+connpassUrl: 'https://raycast.connpass.com/'
 description: 'Raycast創業者のThomas Paul Mann氏を招いた初の日本公式ミートアップ。'
 ---
 

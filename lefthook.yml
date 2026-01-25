@@ -1,0 +1,11 @@
+# https://github.com/evilmartians/lefthook
+
+pre-commit:
+  parallel: true
+  commands:
+    lint:
+      glob: "*.{js,ts,astro}"
+      run: npm run lint
+    check:
+      glob: "*.{js,ts,astro}"
+      run: npx astro check

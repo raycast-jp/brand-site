@@ -65,7 +65,7 @@ const upcomingEvents = events
       {upcomingEvents.length > 0 ? (
         <div class="events-grid">
           {upcomingEvents.map(event => (
-            <a href={`/events/${event.slug}`} class="event-card">
+            <a href={`/events/${event.id}`} class="event-card">
               <time class="event-date">{new Date(event.data.date).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
               <h3 class="event-title">{event.data.title}</h3>
               <p class="event-location">{event.data.location}</p>

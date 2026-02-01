@@ -3,6 +3,23 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
 
 const team = await getCollection('team');
+
+// orderフィールドでソート（指定がない場合は最後に）
+const sortedTeam = team.sort((a, b) => {
+  const orderA = a.data.order ?? 999;
+  const orderB = b.data.order ?? 999;
+  return orderA - orderB;
+});
+
+// expertise のラベルマップ
+const expertiseLabels: Record<string, string> = {
+  'event-planning': 'イベント企画',
+  'content-creation': 'コンテンツ制作',
+  'community-management': 'コミュニティ運営',
+  'extension-development': '拡張機能開発',
+  'translation': '翻訳',
+  'design': 'デザイン',
+};
 ---
 
 <MainLayout
@@ -21,7 +38,7 @@ const team = await getCollection('team');
   <section class="section">
     <div class="container">
       <div class="team-grid">
-        {team.map(member => (
+        {sortedTeam.map(member => (
           <a href={`/team/${member.id}`} class="member-card">
             <div class="member-avatar">
               {member.data.avatar ? (
@@ -34,7 +51,23 @@ const team = await getCollection('team');
             </div>
             <h3 class="member-name">{member.data.name}</h3>
             <p class="member-role">{member.data.role}</p>
+
+            {member.data.expertise && member.data.expertise.length > 0 && (
+              <div class="member-tags">
+                {member.data.expertise.slice(0, 3).map(tag => (
+                  <span class="expertise-tag">{expertiseLabels[tag] || tag}</span>
+                ))}
+              </div>
+            )}
+
             <p class="member-bio">{member.data.bio}</p>
+
+            {member.data.achievements && member.data.achievements.length > 0 && (
+              <div class="member-achievement">
+                <span class="achievement-icon">★</span>
+                <span class="achievement-title">{member.data.achievements[0].title}</span>
+              </div>
+            )}
           </a>
         ))}
       </div>
@@ -68,7 +101,8 @@ const team = await getCollection('team');
   }
 
   .member-card {
-    display: block;
+    display: flex;
+    flex-direction: column;
     padding: var(--spacing-xl);
     background-color: var(--color-white);
     border: 1px solid var(--color-gray-200);
@@ -116,7 +150,24 @@ const team = await getCollection('team');
   .member-role {
     font-size: 0.875rem;
     color: var(--color-gray-500);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* Expertise Tags */
+  .member-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
     margin-bottom: var(--spacing-md);
+  }
+
+  .expertise-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    color: var(--color-gray-600);
+    background-color: var(--color-gray-100);
+    border-radius: 12px;
   }
 
   .member-bio {
@@ -124,6 +175,34 @@ const team = await getCollection('team');
     color: var(--color-gray-600);
     line-height: 1.6;
     margin: 0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Achievement highlight */
+  .member-achievement {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-gray-200);
+    font-size: 0.875rem;
+    color: var(--color-gray-700);
+  }
+
+  .achievement-icon {
+    color: var(--color-accent, #f59e0b);
+    flex-shrink: 0;
+  }
+
+  .achievement-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   @media (max-width: 768px) {

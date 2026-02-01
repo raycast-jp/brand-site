@@ -12,6 +12,24 @@ export async function getStaticPaths() {
 
 const { member } = Astro.props;
 const { Content } = await render(member);
+
+// expertise のラベルマップ
+const expertiseLabels: Record<string, string> = {
+  'event-planning': 'イベント企画',
+  'content-creation': 'コンテンツ制作',
+  'community-management': 'コミュニティ運営',
+  'extension-development': '拡張機能開発',
+  'translation': '翻訳',
+  'design': 'デザイン',
+};
+
+// contribution type のラベルマップ
+const contributionTypeLabels: Record<string, string> = {
+  'event': 'イベント',
+  'content': 'コンテンツ',
+  'extension': '拡張機能',
+  'other': 'その他',
+};
 ---
 
 <MainLayout
@@ -38,6 +56,15 @@ const { Content } = await render(member);
           <div class="member-details">
             <h1 class="member-name">{member.data.name}</h1>
             <p class="member-role">{member.data.role}</p>
+
+            {member.data.expertise && member.data.expertise.length > 0 && (
+              <div class="member-tags">
+                {member.data.expertise.map(tag => (
+                  <span class="expertise-tag">{expertiseLabels[tag] || tag}</span>
+                ))}
+              </div>
+            )}
+
             <p class="member-bio">{member.data.bio}</p>
 
             {member.data.social && (
@@ -64,6 +91,37 @@ const { Content } = await render(member);
       </div>
     </header>
 
+    <!-- Raycast Story -->
+    {member.data.raycastJourney && (
+      <section class="raycast-story">
+        <div class="container">
+          <div class="story-card">
+            <h2 class="story-title">Raycastとの出会い</h2>
+            <div class="story-content">
+              {member.data.raycastJourney.startYear && (
+                <div class="story-item">
+                  <span class="story-label">使い始め</span>
+                  <span class="story-value">{member.data.raycastJourney.startYear}〜</span>
+                </div>
+              )}
+              {member.data.raycastJourney.trigger && (
+                <div class="story-item">
+                  <span class="story-label">きっかけ</span>
+                  <span class="story-value">{member.data.raycastJourney.trigger}</span>
+                </div>
+              )}
+              {member.data.raycastJourney.favoriteExtensions && member.data.raycastJourney.favoriteExtensions.length > 0 && (
+                <div class="story-item">
+                  <span class="story-label">お気に入り</span>
+                  <span class="story-value">{member.data.raycastJourney.favoriteExtensions.join(', ')}</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    )}
+
     <!-- Content -->
     <section class="member-content">
       <div class="container">
@@ -73,16 +131,57 @@ const { Content } = await render(member);
       </div>
     </section>
 
+    <!-- Achievements -->
+    {member.data.achievements && member.data.achievements.length > 0 && (
+      <section class="member-achievements">
+        <div class="container">
+          <h2>主な実績</h2>
+          <div class="achievements-grid">
+            {member.data.achievements.map(achievement => (
+              <div class="achievement-card">
+                <h3 class="achievement-title">
+                  {achievement.url ? (
+                    <a href={achievement.url} target="_blank" rel="noopener noreferrer">
+                      {achievement.title}
+                    </a>
+                  ) : (
+                    achievement.title
+                  )}
+                </h3>
+                {achievement.date && (
+                  <time class="achievement-date">{achievement.date}</time>
+                )}
+                {achievement.description && (
+                  <p class="achievement-description">{achievement.description}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+
     <!-- Contributions -->
     {member.data.contributions && member.data.contributions.length > 0 && (
       <section class="member-contributions">
         <div class="container">
-          <h2>貢献履歴</h2>
+          <h2>活動履歴</h2>
           <div class="contributions-timeline">
             {member.data.contributions.map(contribution => (
               <div class="contribution-item">
                 <time class="contribution-date">{contribution.date}</time>
-                <span class="contribution-description">{contribution.description}</span>
+                {contribution.type && (
+                  <span class="contribution-type">{contributionTypeLabels[contribution.type] || contribution.type}</span>
+                )}
+                <span class="contribution-description">
+                  {contribution.url ? (
+                    <a href={contribution.url} target="_blank" rel="noopener noreferrer">
+                      {contribution.description}
+                    </a>
+                  ) : (
+                    contribution.description
+                  )}
+                </span>
               </div>
             ))}
           </div>
@@ -161,6 +260,23 @@ const { Content } = await render(member);
     margin-bottom: var(--spacing-md);
   }
 
+  /* Expertise Tags in header */
+  .member-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .expertise-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    font-size: 0.8125rem;
+    color: var(--color-gray-600);
+    background-color: var(--color-gray-100);
+    border-radius: 16px;
+  }
+
   .member-bio {
     font-size: 1rem;
     color: var(--color-gray-600);
@@ -184,6 +300,47 @@ const { Content } = await render(member);
     opacity: 1;
   }
 
+  /* Raycast Story */
+  .raycast-story {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .story-card {
+    max-width: 700px;
+    padding: var(--spacing-xl);
+    background-color: var(--color-gray-50);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 12px;
+  }
+
+  .story-title {
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .story-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .story-item {
+    display: flex;
+    gap: var(--spacing-md);
+  }
+
+  .story-label {
+    flex-shrink: 0;
+    width: 80px;
+    font-size: 0.875rem;
+    color: var(--color-gray-500);
+  }
+
+  .story-value {
+    font-size: 0.9375rem;
+    color: var(--color-gray-700);
+  }
+
   /* Content */
   .member-content {
     padding: var(--spacing-3xl) 0;
@@ -204,6 +361,57 @@ const { Content } = await render(member);
     color: var(--color-gray-700);
   }
 
+  /* Achievements */
+  .member-achievements {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .member-achievements h2 {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-lg);
+    max-width: 700px;
+  }
+
+  .achievement-card {
+    padding: var(--spacing-lg);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: 8px;
+  }
+
+  .achievement-title {
+    font-size: 1rem;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .achievement-title a {
+    color: inherit;
+  }
+
+  .achievement-title a:hover {
+    color: var(--color-black);
+    opacity: 1;
+  }
+
+  .achievement-date {
+    display: block;
+    font-size: 0.8125rem;
+    color: var(--color-gray-500);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .achievement-description {
+    font-size: 0.875rem;
+    color: var(--color-gray-600);
+    line-height: 1.5;
+    margin: 0;
+  }
+
   /* Contributions */
   .member-contributions {
     padding: var(--spacing-2xl) 0;
@@ -222,9 +430,10 @@ const { Content } = await render(member);
 
   .contribution-item {
     display: flex;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
     padding: var(--spacing-md) 0;
     border-bottom: 1px solid var(--color-gray-200);
+    align-items: baseline;
   }
 
   .contribution-item:last-child {
@@ -233,13 +442,32 @@ const { Content } = await render(member);
 
   .contribution-date {
     flex-shrink: 0;
-    width: 80px;
+    width: 70px;
     font-size: 0.875rem;
     color: var(--color-gray-500);
   }
 
+  .contribution-type {
+    flex-shrink: 0;
+    padding: 2px 8px;
+    font-size: 0.75rem;
+    color: var(--color-gray-600);
+    background-color: var(--color-gray-100);
+    border-radius: 4px;
+  }
+
   .contribution-description {
     color: var(--color-gray-700);
+    flex: 1;
+  }
+
+  .contribution-description a {
+    color: inherit;
+  }
+
+  .contribution-description a:hover {
+    color: var(--color-black);
+    opacity: 1;
   }
 
   @media (max-width: 768px) {
@@ -262,8 +490,24 @@ const { Content } = await render(member);
       font-size: 1.75rem;
     }
 
+    .member-tags {
+      justify-content: center;
+    }
+
     .member-social {
       justify-content: center;
+    }
+
+    .achievements-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contribution-item {
+      flex-wrap: wrap;
+    }
+
+    .contribution-date {
+      width: auto;
     }
   }
 </style>

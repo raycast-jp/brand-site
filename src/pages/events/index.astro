@@ -31,7 +31,7 @@ const pastEvents = sortedEvents.filter(event => new Date(event.data.date) < now)
       {upcomingEvents.length > 0 ? (
         <div class="events-grid">
           {upcomingEvents.map(event => (
-            <a href={`/events/${event.id}`} class="event-card">
+            <a href={event.data.connpassUrl} target="_blank" rel="noopener noreferrer" class="event-card">
               <div class="event-status upcoming">開催予定</div>
               <time class="event-date">
                 {new Date(event.data.date).toLocaleDateString('ja-JP', {
@@ -65,7 +65,7 @@ const pastEvents = sortedEvents.filter(event => new Date(event.data.date) < now)
         <h2 class="section-title">過去のイベント</h2>
         <div class="events-grid">
           {pastEvents.map(event => (
-            <a href={`/events/${event.id}`} class="event-card past">
+            <a href={event.data.connpassUrl} target="_blank" rel="noopener noreferrer" class="event-card past">
               <div class="event-status past">終了</div>
               <time class="event-date">
                 {new Date(event.data.date).toLocaleDateString('ja-JP', {

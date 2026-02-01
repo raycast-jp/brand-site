@@ -2,7 +2,7 @@
 title: 'Raycast Meetup Japan #2 with Raycast'
 date: '2025-10-31'
 location: '東京都内'
-connpassUrl: 'https://raycast.connpass.com/'
+connpassUrl: 'https://raycast.connpass.com/event/370096/'
 description: 'Raycastチームと共に開催する2回目の公式ミートアップ。'
 ---
 

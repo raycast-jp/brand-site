@@ -13,20 +13,9 @@ const upcomingEvents = events
   <!-- Hero Section -->
   <section class="hero">
     <div class="container">
-      <h1 class="hero-title">Raycast Community Japan</h1>
-      <p class="hero-vision">
-        Raycastを日本に普及し<br />
-        コンピュータと人のあり方を変革する
-      </p>
-      <p class="hero-tagline">your shortcut to everything</p>
-      <div class="hero-cta">
-        <a href="https://www.raycast.com/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-          Raycastを始める
-        </a>
-        <a href="/events" class="btn btn-secondary">
-          イベントを見る
-        </a>
-      </div>
+      <h1 class="hero-vision">
+        Raycastを日本に普及し、コンピュータと人のあり方を変革する
+      </h1>
     </div>
   </section>
 
@@ -117,32 +106,14 @@ const upcomingEvents = events
 <style>
   /* Hero */
   .hero {
-    padding: var(--spacing-4xl) 0;
-  }
-
-  .hero-title {
-    font-size: 3rem;
-    margin-bottom: var(--spacing-lg);
+    padding-top: var(--spacing-2xl);
   }
 
   .hero-vision {
     font-size: 1.5rem;
     color: var(--color-gray-700);
-    margin-bottom: var(--spacing-md);
     line-height: 1.6;
-  }
-
-  .hero-tagline {
-    font-size: 1.125rem;
-    color: var(--color-gray-500);
-    font-style: italic;
-    margin-bottom: var(--spacing-2xl);
-  }
-
-  .hero-cta {
-    display: flex;
-    gap: var(--spacing-md);
-    flex-wrap: wrap;
+    margin: 0;
   }
 
   /* About Section */
@@ -294,10 +265,6 @@ const upcomingEvents = events
   }
 
   @media (max-width: 768px) {
-    .hero-title {
-      font-size: 2rem;
-    }
-
     .hero-vision {
       font-size: 1.25rem;
     }

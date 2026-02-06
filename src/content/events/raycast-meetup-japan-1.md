@@ -9,4 +9,4 @@ description: 'Raycast共同創業者のThomas Paul Mann氏をオンラインで�
 ## イベント概要
 
 Raycast Community Japan初の大規模ミートアップを開催しました。
-Raycast創業者のThomas Paul Mann氏をオンラインでお招きし、Raycastの今後のビジョンやRaycastユーザーとの交流を行っていただきました。
+Raycast共同創業者のThomas Paul Mann氏をオンラインでお招きし、Raycastの今後のビジョンやRaycastユーザーとの交流を行っていただきました。

@@ -30,6 +30,7 @@ const contributionTypeLabels: Record<string, string> = {
   'event': 'イベント',
   'content': 'コンテンツ',
   'extension': '拡張機能',
+  'milestone': 'マイルストーン',
   'other': 'その他',
 };
 ---
@@ -172,11 +173,13 @@ const contributionTypeLabels: Record<string, string> = {
         <div class="container">
           <h2>活動履歴</h2>
           <div class="contributions-timeline">
-            {member.data.contributions.map(contribution => (
+            {[...member.data.contributions].sort((a, b) => b.date.localeCompare(a.date)).map(contribution => (
               <div class="contribution-item">
                 <time class="contribution-date">{contribution.date}</time>
                 {contribution.type && (
-                  <span class="contribution-type">{contributionTypeLabels[contribution.type] || contribution.type}</span>
+                  <span class="contribution-type-col">
+                    <span class="contribution-type">{contributionTypeLabels[contribution.type] || contribution.type}</span>
+                  </span>
                 )}
                 <span class="contribution-description">
                   {contribution.url ? (
@@ -466,13 +469,19 @@ const contributionTypeLabels: Record<string, string> = {
 
   .contribution-date {
     flex-shrink: 0;
-    width: 70px;
+    width: 5.5em;
+    white-space: nowrap;
     font-size: 0.875rem;
     color: var(--color-gray-500);
   }
 
-  .contribution-type {
+  .contribution-type-col {
     flex-shrink: 0;
+    min-width: 7.5em;
+  }
+
+  .contribution-type {
+    display: inline-block;
     padding: 2px 8px;
     font-size: 0.75rem;
     color: var(--color-gray-600);

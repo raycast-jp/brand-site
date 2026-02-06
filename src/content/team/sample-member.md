@@ -2,7 +2,7 @@
 name: 'サンプル メンバー'
 role: 'コアメンバー'
 bio: 'Raycast Community Japanのコアメンバーとして、イベント企画やコンテンツ制作を担当しています。'
-order: 1
+order: 0
 social:
   x: 'https://x.com/'
   github: 'https://github.com/'

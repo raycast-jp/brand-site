@@ -35,7 +35,7 @@ const team = defineCollection({
     contributions: z.array(z.object({
       date: z.string(),
       description: z.string(),
-      type: z.enum(['event', 'content', 'extension', 'milestone', 'other']).optional(),
+      type: z.enum(['event', 'content', 'extension', 'milestone', 'partnership', 'other']).optional(),
       url: z.string().optional(),
     })).optional(),
 

@@ -15,7 +15,7 @@ expertise:
 
 achievements:
   - title: '主要イベントの企画立案'
-    description: 'Raycast Meetup Japan をはじめとする主要イベントの企画・運営をリード'
+    description: 'Raycast Meetup Japan をはじめとする主要イベントの企画立案を担当'
   - title: 'パートナーシップ構築'
     description: 'Raycast社やSingularity Societyなどとのパートナーシップ構築をリード'
 

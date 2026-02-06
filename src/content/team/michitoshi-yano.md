@@ -5,11 +5,13 @@ bio: 'TBD'
 avatar: '/michitoshi-yano.png'
 order: 7
 social:
-  x: ''
-  github: ''
+  x: 'https://x.com/nagauta_jp'
+  github: 'https://github.com/nagauta'
 
 expertise:
   - event-planning
+  - story-writing
+  - partnership
 
 achievements:
   - title: 'TBD'

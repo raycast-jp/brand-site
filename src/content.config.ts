@@ -47,6 +47,8 @@ const team = defineCollection({
       'extension-development',
       'translation',
       'design',
+      'story-writing',
+      'partnership',
     ])).optional(),
 
     // 主な実績

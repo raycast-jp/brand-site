@@ -14,15 +14,17 @@ expertise:
   - partnership
 
 achievements:
-  - title: 'TBD'
-    description: 'TBD'
-    date: ''
+  - title: '主要イベントの企画立案'
+    description: 'Raycast Meetup Japan をはじめとする主要イベントの企画・運営をリード'
+  - title: 'パートナーシップ構築'
+    description: 'Raycast社やSingularity Societyなどとのパートナーシップ構築をリード'
 
 raycastJourney:
-  startYear: ''
-  trigger: 'TBD'
+  trigger: 'LINE社のエンジニアPodcastで紹介されているのを聴いたのがきっかけ。人生で初めて大好きな音楽のような衝撃を受けた'
   favoriteExtensions:
-    - TBD
+    - Search History (Chrome Extension)
+    - My Schedule
+    - Quicklinks
 
 contributions:
   - date: '2024-07-01'

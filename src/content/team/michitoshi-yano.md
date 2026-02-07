@@ -1,7 +1,7 @@
 ---
 name: 'Michitoshi Yano'
 role: 'コアメンバー'
-bio: 'TBD'
+bio: 'Raycast Community Japanのコアメンバーとして、イベント企画やパートナーシップ構築を担当しています'
 avatar: '/michitoshi-yano.png'
 order: 7
 social:

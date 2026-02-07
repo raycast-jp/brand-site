@@ -40,10 +40,9 @@ your shortcut to everythingを体現する
 
 ## 3. Achievements (2024-2025)
 
-- Raycast創業者 Thomas Paul Mann 来日実現
+- Raycast共同創業者 Thomas Paul Mann 来日実現
 - コアメンバー 3名 → 7名 へ拡大
 - SNSフォロワー 500人達成
-- Raycast本 執筆中（Raycast社公式コメント掲載予定）
 
 ### Key Events
 | Date | Event |

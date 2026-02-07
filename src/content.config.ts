@@ -35,7 +35,39 @@ const team = defineCollection({
     contributions: z.array(z.object({
       date: z.string(),
       description: z.string(),
+      type: z.enum(['event', 'content', 'extension', 'milestone', 'partnership', 'other']).optional(),
+      url: z.string().optional(),
     })).optional(),
+
+    // 担当分野
+    expertise: z.array(z.enum([
+      'event-planning',
+      'content-creation',
+      'community-management',
+      'extension-development',
+      'translation',
+      'design',
+      'story-writing',
+      'partnership',
+    ])).optional(),
+
+    // 主な実績
+    achievements: z.array(z.object({
+      title: z.string(),
+      description: z.string().optional(),
+      date: z.string().optional(),
+      url: z.string().optional(),
+    })).optional(),
+
+    // Raycastジャーニー
+    raycastJourney: z.object({
+      startYear: z.string().optional(),
+      trigger: z.string().optional(),
+      favoriteExtensions: z.array(z.string()).optional(),
+    }).optional(),
+
+    // 表示順
+    order: z.number().optional(),
   }),
 });
 

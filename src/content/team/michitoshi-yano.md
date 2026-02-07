@@ -20,6 +20,7 @@ achievements:
     description: 'Raycast社やSingularity Societyなどとのパートナーシップ構築をリード'
 
 raycastJourney:
+  startYear: '2022'
   trigger: 'LINE社のエンジニアPodcastで紹介されているのを聴いたのがきっかけ。人生で初めてソフトウェアに対して大好きな音楽のような衝撃を受けた'
   favoriteExtensions:
     - Search History (Chrome Extension)

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Raycast Community Japan brand site built with Astro 5.x, deployed to Cloudflare Pages. Static site generation with markdown-based content management.
 
-- **Domain:** devx.jp
+- **Domain:** raycast.jp
 - **Language:** Japanese
 
 ## Development Commands

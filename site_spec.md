@@ -124,7 +124,7 @@
 |-----|-----|
 | フレームワーク | Astro |
 | ホスティング | Cloudflare Pages |
-| ドメイン | devx.jp |
+| ドメイン | raycast.jp |
 | アナリティクス | Google Analytics (GA4) |
 
 ---
